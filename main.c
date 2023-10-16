@@ -78,32 +78,32 @@ const char *my_strstr(const char* haystack, const char* needle) {
 
 int my_getnbr(char *str) {
     int i = 0;
-    for (i = 0; str[i] != '\0'; i++) { // Tant que le caractère \0 n'est pas rencontré
-        if (str[i] < '0' || str[i] > '9') {
-            break;
+    int result = 0;
+    while (str[i] != '\0') { // Tant que le caractère \0 n'est pas rencontré
+        if (str[i] >= '0' && str[i] <= '9') { // Si le caractère est compris entre '0' et '9'
+            result = result * 10 + (str[i] - '0'); // Ajouter le caractère à la fin du nombre
         }
+        i++;
     }
-    if (i == 0) {
-        return 0;
-    }
-    char *number = (char *)malloc(sizeof(char) * i); // Allouer de la mémoire pour la chaîne de caractère
-    for (int j = 0; j < i; j++) { // Tant que le compteur j est inférieur au compteur i
-        number[j] = str[j]; // Copier le caractère de la source dans la destination
-    }
-    return atoi(number);
+    return result;
 }
 
 char *my_nbrtostr(int number) {
     int i = 0;
+    int j = 0;
     int temp = number;
-    while (temp != 0) { // Tant que l'entier n'est pas égal à 0
-        temp /= 10; // Diviser l'entier par 10
+    while (temp != 0) { // Tant que le nombre n'est pas égal à 0
+        temp /= 10; // Diviser le nombre par 10
         i++;
     }
-    char *numberStr = (char *)malloc(sizeof(char) * i); // Allouer de la mémoire pour la chaîne de caractère pour i caractères
-    itoa(number, numberStr, 10);
-    return numberStr;
-    free(numberStr);
+    char *result = malloc(sizeof(char) * (i + 1)); // Allouer la mémoire nécessaire
+    while (number != 0) { // Tant que le nombre n'est pas égal à 0
+        result[i - j - 1] = number % 10 + '0'; // Ajouter le caractère à la fin de la chaîne de caractère
+        number /= 10; // Diviser le nombre par 10
+        j++;
+    }
+    result[i] = '\0'; // Ajouter le caractère \0 à la fin de la chaîne de caractère
+    return result;
 }
 
 char *my_rot13(char *source) {
